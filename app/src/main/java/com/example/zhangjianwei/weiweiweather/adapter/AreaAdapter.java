@@ -20,6 +20,16 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
         this.mAreaList = mAreaList;
     }
 
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView areaName;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            areaName = itemView.findViewById(R.id.tv_area_name);
+        }
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,13 +51,5 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
         return mAreaList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView areaName;
 
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            areaName = itemView.findViewById(R.id.tv_area_name);
-        }
-    }
 }

@@ -2,13 +2,15 @@ package com.example.zhangjianwei.weiweiweather.db;
 
 import org.litepal.crud.LitePalSupport;
 
-public class County extends LitePalSupport{
+public class County extends LitePalSupport {
 
     private int id;
 
     private int countyCode;
 
     private String countyName;
+
+    private String weatherId;
 
     private int cityId;
 
@@ -34,6 +36,14 @@ public class County extends LitePalSupport{
 
     public void setCountyName(String countyName) {
         this.countyName = countyName;
+    }
+
+    public String getWeatherId() {
+        return weatherId;
+    }
+
+    public void setWeatherId(String weatherId) {
+        this.weatherId = weatherId;
     }
 
     public int getCityId() {

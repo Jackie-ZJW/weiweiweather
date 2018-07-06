@@ -16,16 +16,21 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
 
     private List<Area> mAreaList;
 
+    private OnItemClickListener onItemClickListener;
+
     public AreaAdapter(List<Area> mAreaList) {
         this.mAreaList = mAreaList;
     }
 
+
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView areaName;
+        public View areaView;
+        public TextView areaName;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            areaView=itemView;
             areaName = itemView.findViewById(R.id.tv_area_name);
         }
     }
@@ -35,15 +40,32 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.area_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        final ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Area area = mAreaList.get(position);
         holder.areaName.setText(area.getAreaName());
+
+        if (onItemClickListener!=null){
+            holder.areaView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onClick(view,position);
+                }
+            });
+
+            holder.areaName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onClick(view,position);
+                }
+            });
+        }
     }
 
     @Override
@@ -51,5 +73,15 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
         return mAreaList.size();
     }
 
+    public interface OnItemClickListener{
 
+        void onClick(View view,int position);
+
+        void onLongClick(View view,int position);
+
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 }

@@ -16,11 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zhangjianwei.weiweiweather.adapter.AreaAdapter;
+import com.example.zhangjianwei.weiweiweather.adapter.MyItemDecoration;
 import com.example.zhangjianwei.weiweiweather.db.Area;
 import com.example.zhangjianwei.weiweiweather.db.City;
 import com.example.zhangjianwei.weiweiweather.db.County;
 import com.example.zhangjianwei.weiweiweather.db.Province;
-import com.example.zhangjianwei.weiweiweather.util.HttpCallbackListener;
 import com.example.zhangjianwei.weiweiweather.util.HttpUtil;
 import com.example.zhangjianwei.weiweiweather.util.Utility;
 
@@ -62,14 +62,6 @@ public class ChooseAreaFragment extends Fragment {
 
     private ProgressDialog progressDialog;
 
-    private int selectedProvinceCode;
-
-    private int selectedCityCode;
-
-    private Province selectedProvince;
-
-    private City selectedCity;
-
 
     public ChooseAreaFragment() {
         // Required empty public constructor
@@ -92,6 +84,8 @@ public class ChooseAreaFragment extends Fragment {
 
         rvRecyclerView.setAdapter(areaAdapter);
 
+        rvRecyclerView.addItemDecoration(new MyItemDecoration(getContext(), MyItemDecoration.VERTICAL_LIST));
+
         return view;
     }
 
@@ -105,11 +99,9 @@ public class ChooseAreaFragment extends Fragment {
                 selectedArea = areaList.get(position);
                 if ("province".equals(selectedArea.getAreaCategory())) {
                     selectedArea.setAreaCategory("city");
-                    selectedProvince=selectedArea.getProvince();
                     queryCities(selectedArea);
                 } else if ("city".equals(selectedArea.getAreaCategory())) {
                     selectedArea.setAreaCategory("county");
-                    selectedCity=selectedArea.getCity();
                     queryCounties(selectedArea);
                 }
 
@@ -118,6 +110,17 @@ public class ChooseAreaFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) {
 
+            }
+        });
+
+        btBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ("city".equals(selectedArea.getAreaCategory())) {
+                    queryProvinces();
+                } else if ("county".equals(selectedArea.getAreaCategory())) {
+                    queryCities(selectedArea);
+                }
             }
         });
 
@@ -152,20 +155,22 @@ public class ChooseAreaFragment extends Fragment {
         Log.i(TAG, "selectedArea.getAreaCategory() is" + selectedArea.getAreaCategory());
         tvTitleText.setText(selectedArea.getProvince().getProvinceName());
         btBackButton.setVisibility(View.VISIBLE);
-        cityList = LitePal.where("provinceId=?",String.valueOf(selectedProvince.getId())).find(City.class);
+        cityList = LitePal.where("provinceId=?", String.valueOf(selectedArea.getProvince().getId())).find(City.class);
         if (cityList.size() > 0) {
             areaList.clear();
             for (City city : cityList) {
                 Area area = new Area();
                 area.setAreaName(city.getCityName());
                 area.setAreaCategory("city");
+                area.setProvince(selectedArea.getProvince());
                 area.setCity(city);
                 areaList.add(area);
             }
 
+            selectedArea.setAreaCategory("city");
             areaAdapter.notifyDataSetChanged();
         } else {
-            String cityAddress = "http://guolin.tech/api/china/" + selectedProvince.getProvinceCode();
+            String cityAddress = "http://guolin.tech/api/china/" + selectedArea.getProvince().getProvinceCode();
             Log.i(TAG, "cityAddress is: " + cityAddress);
             queryFromServer(cityAddress, selectedArea);
         }
@@ -174,20 +179,22 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCounties(Area selectedArea) {
         tvTitleText.setText(selectedArea.getCity().getCityName());
         btBackButton.setVisibility(View.VISIBLE);
-        countyList = LitePal.where("cityId=?",String.valueOf(selectedCity.getId())).find(County.class);
+        countyList = LitePal.where("cityId=?", String.valueOf(selectedArea.getCity().getId())).find(County.class);
         if (countyList.size() > 0) {
             areaList.clear();
             for (County county : countyList) {
                 Area area = new Area();
                 area.setAreaName(county.getCountyName());
                 area.setAreaCategory("county");
+                area.setProvince(selectedArea.getProvince());
+                area.setCity(selectedArea.getCity());
                 area.setCounty(county);
                 areaList.add(area);
             }
 
             areaAdapter.notifyDataSetChanged();
         } else {
-            String countyAddress = "http://guolin.tech/api/china/" + selectedProvince.getProvinceCode() + "/" + selectedCity.getCityCode();
+            String countyAddress = "http://guolin.tech/api/china/" + selectedArea.getProvince().getProvinceCode() + "/" + selectedArea.getCity().getCityCode();
             queryFromServer(countyAddress, selectedArea);
         }
 

@@ -2,6 +2,7 @@ package com.example.zhangjianwei.weiweiweather;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -103,6 +104,15 @@ public class ChooseAreaFragment extends Fragment {
                 } else if ("city".equals(selectedArea.getAreaCategory())) {
                     selectedArea.setAreaCategory("county");
                     queryCounties(selectedArea);
+                } else if ("county".equals(selectedArea.getAreaCategory())) {
+                    if (getActivity() instanceof MainActivity) {
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id", selectedArea.getCounty().getWeatherId());
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if (getActivity() instanceof WeatherActivity){
+
+                    }
                 }
 
             }

@@ -6,11 +6,11 @@ public class Aqi {
 
     public class City{
 
-        String aqi;
+        public String aqi;
 
-        String pm25;
+        public String pm25;
 
-        String qlty;
+        public String qlty;
 
     }
 

@@ -181,6 +181,7 @@ public class ChooseAreaFragment extends Fragment {
 
             selectedArea.setAreaCategory("city");
             areaAdapter.notifyDataSetChanged();
+            //areaAdapter.set
         } else {
             String cityAddress = "http://guolin.tech/api/china/" + selectedArea.getProvince().getProvinceCode();
             Log.i(TAG, "cityAddress is: " + cityAddress);

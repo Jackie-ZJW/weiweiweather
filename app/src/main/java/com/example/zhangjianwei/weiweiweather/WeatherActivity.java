@@ -1,7 +1,10 @@
 package com.example.zhangjianwei.weiweiweather;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,10 +13,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.zhangjianwei.weiweiweather.gson.Forecast;
 import com.example.zhangjianwei.weiweiweather.gson.Weather;
 import com.example.zhangjianwei.weiweiweather.util.HttpUtil;
@@ -28,40 +33,35 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
 
-    private Button btNavButton;
-
-    private TextView tvCityTitle;
-
-    private TextView tvUpdateTime;
-
-    private TextView tvDegreeText;
-
-    private TextView tvWeatherInfoText;
-
-    private String weatherId;
-
-    private LinearLayout llForecastLayout;
-
-    private TextView tvAqiText;
-
-    private TextView tvPM25Text;
-
-    private TextView tvComfortText;
-
-    private TextView tvSportText;
-
-    private TextView tvWashCarText;
-
-    private String responseWeatherText;
-
     public DrawerLayout dlDrawerLayout;
-
+    private Button btNavButton;
+    private TextView tvCityTitle;
+    private TextView tvUpdateTime;
+    private TextView tvDegreeText;
+    private TextView tvWeatherInfoText;
+    private String mWeatherId;
+    private LinearLayout llForecastLayout;
+    private TextView tvAqiText;
+    private TextView tvPM25Text;
+    private TextView tvComfortText;
+    private TextView tvSportText;
+    private TextView tvWashCarText;
+    private String responseWeatherText;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private ImageView ivBingPicImage;
+    private String responseBingPicText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT > 21) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
         setContentView(R.layout.activity_weather);
 
         btNavButton = findViewById(R.id.bt_nav_button);
@@ -85,6 +85,8 @@ public class WeatherActivity extends AppCompatActivity {
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
+        ivBingPicImage = findViewById(R.id.iv_bing_pic_image);
+
         btNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,24 +94,32 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences preferences = getSharedPreferences("weiweiweather", MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
         responseWeatherText = preferences.getString("reponseWeatherText", null);
+        responseBingPicText = preferences.getString("bingPic_ResponseText", null);
         if (!TextUtils.isEmpty(responseWeatherText)) {
             //如果已经存在之前缓存的天气数据时就直接解析该数据并显示到界面上
             Weather weather = Utility.parseWeatherResponse(responseWeatherText);
-            weatherId = weather.basic.weatherId;
+            mWeatherId = weather.basic.weatherId;
             showWeatherInfo(weather);
         } else {
-            weatherId = getIntent().getStringExtra("weather_id");
-            requestWeather(weatherId);
+            mWeatherId = getIntent().getStringExtra("weather_id");
+            requestWeather(mWeatherId);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestWeather(weatherId);
+                requestWeather(mWeatherId);
             }
         });
+
+        if (!TextUtils.isEmpty(responseBingPicText)) {
+            //如果已经存在之前缓存的背景图片数据就直接解析该数据并将背景图片显示出来
+            Glide.with(WeatherActivity.this).load(responseBingPicText).into(ivBingPicImage);
+        } else {
+            loadBingPic();
+        }
 
     }
 
@@ -130,16 +140,17 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String reponseWeatherText = response.body().string();
+                //Log.i("zhangjianwei123",responseWeatherText);
                 final Weather weather = Utility.parseWeatherResponse(reponseWeatherText);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (weather != null && "ok".equals(weather.status)) {
-                            SharedPreferences.Editor editor = getSharedPreferences("weiweiweather", MODE_PRIVATE).edit();
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("reponseWeatherText", reponseWeatherText);
                             editor.apply();
                             //这一行代码很重要，可以解决在进入weatherActivity活动界面之后的后续手动刷新天气数据时不会变成第一次进入时显示的城市的天气
-                            weatherId=weather.basic.weatherId;
+                            mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                         } else {
                             Toast.makeText(WeatherActivity.this, "获取天气数据失败1！", Toast.LENGTH_SHORT).show();
@@ -151,6 +162,35 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
+
+        loadBingPic();
+    }
+
+    private void loadBingPic() {
+        String bingPicUrl = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendRequestWithOkHttp(bingPicUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPicResponseText = response.body().string();
+                if (!TextUtils.isEmpty(bingPicResponseText)) {
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                    editor.putString("bingPic_ResponseText", bingPicResponseText);
+                    editor.apply();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(WeatherActivity.this).load(bingPicResponseText).into(ivBingPicImage);
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     private void showWeatherInfo(Weather weather) {
@@ -159,7 +199,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         tvCityTitle.setText(weather.basic.cityName);
         tvUpdateTime.setText(updateTime);
-        tvDegreeText.setText(weather.now.temperature);
+        tvDegreeText.setText(weather.now.temperature + "℃");
         tvWeatherInfoText.setText(weather.now.more.info);
 
         List<Forecast> forecastList = weather.forecastList;

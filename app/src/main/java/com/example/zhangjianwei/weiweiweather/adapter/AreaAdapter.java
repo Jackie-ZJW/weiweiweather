@@ -1,10 +1,12 @@
 package com.example.zhangjianwei.weiweiweather.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.zhangjianwei.weiweiweather.R;
@@ -18,19 +20,25 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
 
     private OnItemClickListener onItemClickListener;
 
+    private int mPosition = -1;
+
     public AreaAdapter(List<Area> mAreaList) {
         this.mAreaList = mAreaList;
     }
 
+    public void setSelection(int position) {
+        this.mPosition = position;
+    }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        public View areaView;
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout areaLinearLayout;
         public TextView areaName;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            areaView=itemView;
+            areaLinearLayout = itemView.findViewById(R.id.ll_area_item_layout);
             areaName = itemView.findViewById(R.id.tv_area_name);
         }
     }
@@ -51,18 +59,25 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
         Area area = mAreaList.get(position);
         holder.areaName.setText(area.getAreaName());
 
-        if (onItemClickListener!=null){
-            holder.areaView.setOnClickListener(new View.OnClickListener() {
+        /*if (mPosition != -1) {
+            if (position!=mPosition) {
+                //position=mPosition;
+                holder.areaLinearLayout.setBackgroundColor(Color.GRAY);
+            }
+        }*/
+
+        if (onItemClickListener != null) {
+            holder.areaLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onClick(view,position);
+                    onItemClickListener.onClick(view, position);
                 }
             });
 
             holder.areaName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onClick(view,position);
+                    onItemClickListener.onClick(view, position);
                 }
             });
         }
@@ -73,11 +88,11 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
         return mAreaList.size();
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
 
-        void onClick(View view,int position);
+        void onClick(View view, int position);
 
-        void onLongClick(View view,int position);
+        void onLongClick(View view, int position);
 
     }
 

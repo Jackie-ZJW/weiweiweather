@@ -1,5 +1,6 @@
 package com.example.zhangjianwei.weiweiweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.zhangjianwei.weiweiweather.gson.Forecast;
 import com.example.zhangjianwei.weiweiweather.gson.Weather;
+import com.example.zhangjianwei.weiweiweather.service.AutoUpdateService;
 import com.example.zhangjianwei.weiweiweather.util.HttpUtil;
 import com.example.zhangjianwei.weiweiweather.util.Utility;
 
@@ -95,6 +98,7 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
+        //SharedPreferences preferences=getSharedPreferences("weather",MODE_PRIVATE);
         responseWeatherText = preferences.getString("reponseWeatherText", null);
         responseBingPicText = preferences.getString("bingPic_ResponseText", null);
         if (!TextUtils.isEmpty(responseWeatherText)) {
@@ -147,6 +151,7 @@ public class WeatherActivity extends AppCompatActivity {
                     public void run() {
                         if (weather != null && "ok".equals(weather.status)) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                            //SharedPreferences.Editor editor=getSharedPreferences("weather",MODE_PRIVATE).edit();
                             editor.putString("reponseWeatherText", reponseWeatherText);
                             editor.apply();
                             //这一行代码很重要，可以解决在进入weatherActivity活动界面之后的后续手动刷新天气数据时不会变成第一次进入时显示的城市的天气
@@ -225,6 +230,10 @@ public class WeatherActivity extends AppCompatActivity {
         tvSportText.setText(weather.suggestion.sport.info);
         tvWashCarText.setText(weather.suggestion.washCar.info);
 
+        Log.e("zhangjianwei123","开始展示数据!");
+
+        Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);
+        startService(intent);
 
     }
 }

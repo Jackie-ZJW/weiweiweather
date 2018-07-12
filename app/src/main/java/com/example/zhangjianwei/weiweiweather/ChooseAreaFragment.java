@@ -97,6 +97,7 @@ public class ChooseAreaFragment extends Fragment {
         areaAdapter.setOnItemClickListener(new AreaAdapter.OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
+
                 selectedArea = areaList.get(position);
                 if ("province".equals(selectedArea.getAreaCategory())) {
                     selectedArea.setAreaCategory("city");
@@ -110,8 +111,8 @@ public class ChooseAreaFragment extends Fragment {
                         intent.putExtra("weather_id", selectedArea.getCounty().getWeatherId());
                         startActivity(intent);
                         getActivity().finish();
-                    }else if (getActivity() instanceof WeatherActivity){
-                        WeatherActivity activity=(WeatherActivity) getActivity();
+                    } else if (getActivity() instanceof WeatherActivity) {
+                        WeatherActivity activity = (WeatherActivity) getActivity();
                         activity.dlDrawerLayout.closeDrawers();
                         activity.requestWeather(selectedArea.getCounty().getWeatherId());
                     }
@@ -181,6 +182,8 @@ public class ChooseAreaFragment extends Fragment {
 
             selectedArea.setAreaCategory("city");
             areaAdapter.notifyDataSetChanged();
+            rvRecyclerView.getLayoutManager().smoothScrollToPosition(rvRecyclerView, null, 0);
+            //rvRecyclerView.set
             //areaAdapter.set
         } else {
             String cityAddress = "http://guolin.tech/api/china/" + selectedArea.getProvince().getProvinceCode();
@@ -204,8 +207,9 @@ public class ChooseAreaFragment extends Fragment {
                 area.setCounty(county);
                 areaList.add(area);
             }
-
             areaAdapter.notifyDataSetChanged();
+            //本行代码是为了让recyclerview列表每次都默认显示在第一行的位置
+            rvRecyclerView.getLayoutManager().smoothScrollToPosition(rvRecyclerView,null,0);
         } else {
             String countyAddress = "http://guolin.tech/api/china/" + selectedArea.getProvince().getProvinceCode() + "/" + selectedArea.getCity().getCityCode();
             queryFromServer(countyAddress, selectedArea);

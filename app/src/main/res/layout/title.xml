@@ -8,9 +8,18 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:background="@drawable/ic_home" />
+
+    <Button
+        android:id="@+id/bt_edit_city"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/tv_title_city"
+        android:background="@drawable/add_city_bg" />
 
     <TextView
         android:id="@+id/tv_title_city"

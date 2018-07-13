@@ -39,14 +39,30 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private String street;
 
-    private Boolean isAuthorized = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        initData();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initData();
+                    }
+                });
+
+            }
+        }).start();
+
 
     }
 
@@ -101,10 +117,11 @@ public class WelcomeActivity extends AppCompatActivity {
     private void initBaiduMapLocation() {
         showProgressDialog("开始定位...");
         mLocationClient = new LocationClient(this.getApplicationContext());
-        locationListener=new MyLocationListener();
+        locationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(locationListener);
         LocationClientOption option = new LocationClientOption();
         option.setIsNeedAddress(true);
+        option.setScanSpan(2 * 60 * 1000);
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
@@ -149,5 +166,11 @@ public class WelcomeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "获取定位信息失败！", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocationClient.stop();
     }
 }

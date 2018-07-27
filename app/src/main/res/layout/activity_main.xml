@@ -23,38 +23,41 @@
     <RadioGroup
         android:id="@+id/rg_button_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#accc"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/radiobutton_background"
             android:button="@null"
-            android:gravity="center"
             android:drawableTop="@drawable/weather_logo"
+            android:gravity="center"
             android:text="天气" />
 
         <RadioButton
             android:id="@+id/rb_2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/radiobutton_background"
             android:button="@null"
-            android:gravity="center"
             android:drawableTop="@drawable/real_time_weather_pic"
+            android:gravity="center"
             android:text="时景" />
 
         <RadioButton
             android:id="@+id/rb_3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/radiobutton_background"
             android:button="@null"
-            android:gravity="center"
             android:drawableTop="@drawable/ic_home"
+            android:gravity="center"
             android:text="我" />
 
 

@@ -3,8 +3,10 @@ package com.example.zhangjianwei.weiweiweather;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -159,6 +161,9 @@ public class WelcomeActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(address)) {
                 Log.e("zhangjianwei1234", address);
                 cancelProgressDialog();
+
+                SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this);
+
                 Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

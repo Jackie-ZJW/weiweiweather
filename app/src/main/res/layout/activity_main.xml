@@ -54,11 +54,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/radiobutton_background"
+            android:background="@drawable/radiobutton_background_rb3"
             android:button="@null"
-            android:drawableTop="@drawable/ic_home"
-            android:gravity="center"
-            android:text="我" />
+            android:gravity="center" />
 
 
     </RadioGroup>

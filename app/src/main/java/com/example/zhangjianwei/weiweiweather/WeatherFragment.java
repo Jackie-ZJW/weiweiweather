@@ -127,10 +127,17 @@ public class WeatherFragment extends Fragment {
             loadPic();
         }
 
-        btNavButton.setOnClickListener(new View.OnClickListener() {
+        /*btNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });*/
+
+        btEditCityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

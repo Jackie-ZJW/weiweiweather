@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@color/colorPrimary">
+
+    <ImageButton
+        android:id="@+id/action_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:paddingLeft="@dimen/common_dimen"
+        android:src="@mipmap/core_back_arrow" />
+
+    <EditText
+        android:id="@+id/searchTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/common_dimen"
+        android:layout_toRightOf="@id/action_back"
+        android:background="@null"
+        android:drawableLeft="@mipmap/search"
+        android:drawablePadding="@dimen/common_dimen_tiny"
+        android:hint="@string/city_hint_search_box"
+        android:imeOptions="actionSearch"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/secondly_text_white"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/action_empty_btn"
+        style="@style/city_MSV_ImageButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/delete"
+        android:visibility="gone" />
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:backgroundTint="#10000000"
+        tools:targetApi="lollipop" />
+
+
+</RelativeLayout>

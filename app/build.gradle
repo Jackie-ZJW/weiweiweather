@@ -24,10 +24,10 @@ android {
     }
     buildToolsVersion '28.0.1'
 
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDir 'libs'
-            jni.srcDirs=[]
+            jni.srcDirs = []
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.zhangjianwei.weiweiweather;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -137,7 +138,9 @@ public class WeatherFragment extends Fragment {
         btEditCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), SearchCityActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 

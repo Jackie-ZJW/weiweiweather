@@ -19,6 +19,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.example.zhangjianwei.weiweiweather.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,9 @@ public class WelcomeActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(3000);
+                    //从服务器上查询全国省份列表。
+                    String province_address="http://jianwei123.top/api/china.json";
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -66,6 +70,17 @@ public class WelcomeActivity extends AppCompatActivity {
         }).start();
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //initBaiduMapLocation();  //单独添加此行代码会报错
     }
 
     private void initData() {
@@ -165,6 +180,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this);
 
                 Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                intent.putExtra("address",address);
                 startActivity(intent);
                 finish();
             } else {

@@ -10,7 +10,9 @@
         android:id="@+id/iv_bing_pic_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@mipmap/back_100d"
+        />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/dl_drawer_layout"
@@ -36,7 +38,7 @@
                     android:layout_marginTop="15dp"
                     android:orientation="vertical">
 
-                    <include layout="@layout/title" />
+                    <!--<include layout="@layout/title" />-->
 
                     <include layout="@layout/now" />
 

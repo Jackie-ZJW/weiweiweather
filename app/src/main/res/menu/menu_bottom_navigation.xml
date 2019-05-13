@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_weather_info"
+        android:icon="@drawable/weather_logo"
+        android:title="天气" />
+    <item
+        android:id="@+id/item_weather_pic"
+        android:icon="@drawable/real_time_weather_pic"
+        android:title="实景" />
+    <item
+        android:id="@+id/item_mine_info"
+        android:icon="@drawable/ic_home"
+        android:title="我" />
+
+
+</menu>

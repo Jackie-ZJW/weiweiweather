@@ -2,7 +2,6 @@ package com.example.zhangjianwei.weiweiweather;
 
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +23,8 @@ import com.example.zhangjianwei.weiweiweather.db.County;
 import com.example.zhangjianwei.weiweiweather.db.Province;
 import com.example.zhangjianwei.weiweiweather.util.HttpUtil;
 import com.example.zhangjianwei.weiweiweather.util.Utility;
+import com.example.zhangjianwei.weiweiweather.view.activity.MainActivity;
+import com.example.zhangjianwei.weiweiweather.view.fragment.WeatherFragment;
 
 import org.litepal.LitePal;
 

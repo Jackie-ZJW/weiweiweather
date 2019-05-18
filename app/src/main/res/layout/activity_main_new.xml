@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.activity.MainActivity">
 
 
@@ -14,35 +13,19 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/back_100d" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="52dp"
-        android:layout_above="@+id/bottom_navigation"
-        />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <RelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom_navigation"
-        />
-
-    <RelativeLayout
-        android:id="@+id/rv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_loc"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:padding="6dp"
-            android:src="@drawable/ic_home" />
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:src="@mipmap/icon_loc" />
 
         <TextView
             android:id="@+id/tv_location"
@@ -80,6 +63,113 @@
             android:src="@mipmap/icon_set" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_pic_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_pic_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="13dp"
+            android:text="实景"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_pic_set"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="14dp"
+            android:src="@mipmap/icon_set" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_mine_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_mine_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="13dp"
+            android:text="我"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_mine_set"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="14dp"
+            android:src="@mipmap/icon_set" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="48dp" />
+
+    <FrameLayout
+        android:id="@+id/fl_two_fragments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="48dp"
+        android:visibility="gone" />
+
+    <!--<android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom_navigation"
+        />-->
+
+
+    <RadioGroup
+        android:id="@+id/rg_bottom_item"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="#EAEAEA"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_weather_now"
+            style="@style/bottom_item_style"
+            android:checked="true"
+            android:drawableTop="@drawable/rb_weather_now_drawable_selector"
+            android:text="天气" />
+
+        <RadioButton
+            android:id="@+id/rb_weather_pic"
+            style="@style/bottom_item_style"
+            android:drawableTop="@drawable/rb_weather_pic_drawable_selector"
+            android:text="实景" />
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            style="@style/bottom_item_style"
+            android:drawableTop="@drawable/rb_mine_drawable_selector"
+            android:text="我" />
+
+    </RadioGroup>
 
 
 </RelativeLayout>

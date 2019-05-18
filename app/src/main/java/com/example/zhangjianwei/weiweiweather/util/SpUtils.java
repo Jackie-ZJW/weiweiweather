@@ -23,7 +23,7 @@ import java.util.List;
 
 public class SpUtils {
 
-    public static String PREFERENCE_NAME = "HeOpenApp";
+    public static String PREFERENCE_NAME = "WeiWeiWeatherApp";
 
     /**
      * 清空统计数据

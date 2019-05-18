@@ -9,6 +9,7 @@ import com.example.zhangjianwei.weiweiweather.crash.CrashHandler;
 import com.example.zhangjianwei.weiweiweather.util.ContentUtil;
 
 import org.apache.log4j.Level;
+import org.litepal.LitePal;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -23,9 +24,27 @@ public class MyApplication extends Application {
 
     public Logger log;
 
+    /**
+     * 获得实例
+     *
+     * @return
+     */
+    public static MyApplication getInstance() {
+        return instance;
+    }
+
+    /**
+     * 获取context对象
+     */
+    public static Context getContext() {
+        return instance.getApplicationContext();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LitePal.initialize(this);
         instance = this;
         //在主线程中new的handler就是主线程的handler
         //初始化Handler
@@ -54,21 +73,6 @@ public class MyApplication extends Application {
 
         //gLogger = Logger.getLogger(this.getClass());
         log = Logger.getLogger("CrifanLiLog4jTest");
-    }
-    /**
-     * 获得实例
-     *
-     * @return
-     */
-    public static MyApplication getInstance() {
-        return instance;
-    }
-
-    /**
-     * 获取context对象
-     */
-    public static Context getContext() {
-        return instance.getApplicationContext();
     }
 
 

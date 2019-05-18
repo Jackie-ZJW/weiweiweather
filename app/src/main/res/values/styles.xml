@@ -3,18 +3,31 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:listDivider">@drawable/divider</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="city_MSV_ImageButton">
+    <declare-styleable name="SunAnimationView">
+        <attr name="sun_circle_color" format="color" />
+        <attr name="sun_font_color" format="color" />
+        <attr name="sun_font_size" format="dimension" />
+        <attr name="sun_circle_radius" format="integer" />
+        <attr name="type" format="boolean" />
+    </declare-styleable>
+
+    <style name="bottom_item_style">
+
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">?selectableItemBackground</item>
-        <item name="android:paddingLeft">@dimen/search_icon_padding</item>
-        <item name="android:paddingRight">@dimen/search_icon_padding</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@color/rb_textcolor</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">1dp</item>
+        <item name="android:padding">1dp</item>
+
     </style>
 
 </resources>

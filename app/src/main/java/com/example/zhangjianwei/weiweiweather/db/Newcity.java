@@ -4,30 +4,44 @@ import org.litepal.crud.LitePalSupport;
 
 public class Newcity extends LitePalSupport {
 
-    private int id;
-
-    private String cid;
-
+    private String cityName;
+    private String cityId;
+    private String cnty;
     private String location;
+    private String parentCity;
+    private String adminArea;
+    private boolean isFavor;
 
-    private String parent_city;
-
-    private String admin_area;
-
-    public int getId() {
-        return id;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
-    public String getCid() {
-        return cid;
+    public String getCityId() {
+        return cityId;
     }
 
-    public void setCid(String cid) {
-        this.cid = cid;
+    public void setCityId(String cityId) {
+        this.cityId = cityId;
+    }
+
+    public boolean isFavor() {
+        return isFavor;
+    }
+
+    public void setFavor(boolean favor) {
+        isFavor = favor;
+    }
+
+    public String getCnty() {
+        return cnty;
+    }
+
+    public void setCnty(String cnty) {
+        this.cnty = cnty;
     }
 
     public String getLocation() {
@@ -38,19 +52,19 @@ public class Newcity extends LitePalSupport {
         this.location = location;
     }
 
-    public String getParent_city() {
-        return parent_city;
+    public String getAdminArea() {
+        return adminArea;
     }
 
-    public void setParent_city(String parent_city) {
-        this.parent_city = parent_city;
+    public void setAdminArea(String adminArea) {
+        this.adminArea = adminArea;
     }
 
-    public String getAdmin_area() {
-        return admin_area;
+    public String getParentCity() {
+        return parentCity;
     }
 
-    public void setAdmin_area(String admin_area) {
-        this.admin_area = admin_area;
+    public void setParentCity(String parentCity) {
+        this.parentCity = parentCity;
     }
 }

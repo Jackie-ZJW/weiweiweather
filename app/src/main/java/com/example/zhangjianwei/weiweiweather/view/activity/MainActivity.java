@@ -130,6 +130,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		
+		Log.i(TAG,"onCreate execute !");
 
         //设置系统状态栏与activity标题栏融为一体，背景颜色透明。
         /*if (Build.VERSION.SDK_INT > 21) {
